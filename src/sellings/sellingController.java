@@ -108,26 +108,26 @@ public class sellingController {
     //----------------------------------Fertilizer-------------------------------------
 
     //----------------------------------Fertilizer-------------------------------------
-    public void AddOtherCost(ActionEvent event) {
+//    public void AddOtherCost(ActionEvent event) {
 //        int fertilizerAmount = Integer.parseInt(ferti_Qty.getText()) * Integer.parseInt(ferti_rate.getText());
 
 //        System.out.println(fertilizerAmount);
-        if (OC_paid.isSelected()) {
-            payState = 1;
-        } else payState = 0;
+//        if (OC_paid.isSelected()) {
+//            payState = 1;
+//        } else payState = 0;
 
 
-        try {
-            Statement statement = connection.createStatement();
-
-            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, TS_ID, amount) " +
-                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + ferti_Qty.getText() + "','" + ferti_rate.getText() + "','" + fertilizerAmount + "','" + payState + "')";
-
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//        try {
+//            Statement statement = connection.createStatement();
+//
+//            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, TS_ID, amount) " +
+//                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + ferti_Qty.getText() + "','" + ferti_rate.getText() + "','" + fertilizerAmount + "','" + payState + "')";
+//
+//            statement.executeUpdate(sql);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
     //----------------------------------Fertilizer-------------------------------------
 
 
