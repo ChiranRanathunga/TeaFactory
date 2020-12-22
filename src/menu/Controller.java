@@ -104,11 +104,12 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../payments/advance.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("G:/SrimalUnclesProject/TeaFactorySystem/src/payments/advance.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         primaryStage.getScene().setRoot(newRoot);
+//        G:\SrimalUnclesProject\TeaFactorySystem\src\payments\advance.fxml
 
     }
 

@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/TeaFactorySystem</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="menu.Main" />
+        <option name="appClass" value="Main" />
         <option name="description" value="" />
         <option name="height" value="600" />
         <option name="htmlPlaceholderId" value="" />

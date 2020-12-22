@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="TeaFactorySystem.jar" size="18878" download="eager" />
+    <jar href="TeaFactorySystem.jar" size="19180" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="900" height="600" main-class="menu.Main"  name="TeaFactorySystem" />
+  <jfx:javafx-desc  width="900" height="600" main-class="Main"  name="TeaFactorySystem" />
   <update check="background"/>
 </jnlp>
