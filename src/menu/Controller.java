@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -33,6 +34,20 @@ public class Controller {
     public TextField mnth_rate_month;
     @FXML
     public TextField mnth_rate_rate;
+    public TitledPane GO_titledPane;
+    public Button add_supplier_btn;
+    public Button pay_advnc_btn;
+    public Button consum_sell_btn;
+    public Button other_cost_btn;
+    public Button generate_report_btn;
+    public Button ferti_sell_btn;
+    public Button mnth_rate_set_btn;
+    public Button mnth_rate_reset_btn;
+    public Button deduct_tea_col_add_btn;
+    public Button deduct_tea_col_reset_btn;
+    public Button tea_col_add_btn;
+    public Button tea_col_reset_btn;
+
 
     TeaPotConnection teaPotConnection = new TeaPotConnection();
     Connection connection = teaPotConnection.getConnection();

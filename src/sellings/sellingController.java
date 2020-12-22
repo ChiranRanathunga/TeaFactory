@@ -55,6 +55,15 @@ public class sellingController {
     public TextField OC_amount;
     @FXML
     public CheckBox OC_paid;
+    public Button comsum_add_btn;
+    public Button comsum_reset_btn;
+    public Button comsum_bckToHome;
+    public Button ferti_add_btn;
+    public Button ferti_reser_btn;
+    public Button ferti_backToHome_btn;
+    public Button OC_add_btn;
+    public Button OC_reset_btn;
+    public Button OC_backtoHm_btn;
 
     TeaPotConnection teaPotConnection = new TeaPotConnection();
     Connection connection = teaPotConnection.getConnection();
