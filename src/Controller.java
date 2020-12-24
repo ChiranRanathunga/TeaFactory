@@ -1,5 +1,3 @@
-package menu;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -92,7 +90,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../suppliers/supplierDetails.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("supplierDetails.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +102,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("G:/SrimalUnclesProject/TeaFactorySystem/src/payments/advance.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("advance.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,7 +115,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../sellings/consumption.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("consumption.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,7 +127,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../sellings/fertilizer.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("fertilizer.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,7 +139,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../sellings/otherCosts.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("otherCosts.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +151,7 @@ public class Controller {
         Parent newRoot = null;
         Stage primaryStage = (Stage) tea_col_sup_name.getScene().getWindow();
         try {
-            newRoot = FXMLLoader.load(getClass().getResource("../reports/reportPage.fxml"));
+            newRoot = FXMLLoader.load(getClass().getResource("reportPage.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

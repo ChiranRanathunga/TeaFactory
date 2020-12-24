@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sellings.sellingController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sellingController">
     <children>
         <Text layoutX="445.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Date : "/>
         <DatePicker fx:id="ferti_date" layoutX="547.0" layoutY="135.0" promptText="MM/DD/YYYY"/>
@@ -21,8 +21,8 @@
         <TextField fx:id="ferti_Qty" layoutX="308.0" layoutY="287.0" promptText="kg"/>
         <Button fx:id="ferti_add_btn" layoutX="596.0" layoutY="441.0" mnemonicParsing="false" prefHeight="25.0"
                 prefWidth="125.0" text="ADD" onAction="#AddFertilizer"/>
-        <Button fx:id="ferti_reser_btn" layoutX="398.0" layoutY="441.0" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="125.0" text="Reset"/>
+        <Button fx:id="ferti_reset_btn" layoutX="398.0" layoutY="441.0" mnemonicParsing="false" prefHeight="25.0"
+                prefWidth="125.0" text="Reset" onAction="#Reset"/>
         <Text layoutX="495.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Rate : "/>
         <TextField fx:id="ferti_rate" layoutX="575.0" layoutY="287.0" promptText="Rs"/>
         <Button fx:id="ferti_backToHome_btn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" text="Home"

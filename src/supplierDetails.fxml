@@ -12,7 +12,7 @@
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
          prefWidth="900.0" style="-fx-background-color: #a2d48e;" tabClosingPolicy="UNAVAILABLE"
          xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="suppliers.SupplierDetails">
+         fx:controller="SupplierDetails">
     <tabs>
         <Tab fx:id="add_sup_tab" text="Add Supplier">
             <content>

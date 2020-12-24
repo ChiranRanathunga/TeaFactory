@@ -1,5 +1,3 @@
-package sellings;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import menu.TeaPotConnection;
+//import TeaPotConnection;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -59,7 +57,7 @@ public class sellingController {
     public Button comsum_reset_btn;
     public Button comsum_bckToHome;
     public Button ferti_add_btn;
-    public Button ferti_reser_btn;
+    public Button ferti_reset_btn;
     public Button ferti_backToHome_btn;
     public Button OC_add_btn;
     public Button OC_reset_btn;
@@ -116,27 +114,24 @@ public class sellingController {
     }
     //----------------------------------Fertilizer-------------------------------------
 
-    //----------------------------------Fertilizer-------------------------------------
-//    public void AddOtherCost(ActionEvent event) {
-//        int fertilizerAmount = Integer.parseInt(ferti_Qty.getText()) * Integer.parseInt(ferti_rate.getText());
-
+    //----------------------------------Other Cost-------------------------------------
+    public void AddOtherCost(ActionEvent event) {
 //        System.out.println(fertilizerAmount);
-//        if (OC_paid.isSelected()) {
-//            payState = 1;
-//        } else payState = 0;
+        if (OC_paid.isSelected()) {
+            payState = 1;
+        } else payState = 0;
 
+        try {
+            Statement statement = connection.createStatement();
 
-//        try {
-//            Statement statement = connection.createStatement();
-//
-//            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, TS_ID, amount) " +
-//                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + ferti_Qty.getText() + "','" + ferti_rate.getText() + "','" + fertilizerAmount + "','" + payState + "')";
-//
-//            statement.executeUpdate(sql);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, TS_ID, amount) " +
+                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + OC_sup_id.getText() + "','" + OC_amount.getText() + "')";
+
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     //----------------------------------Fertilizer-------------------------------------
 
 
@@ -149,14 +144,14 @@ public class sellingController {
         if (id.equals("comsum_bckToHome")) {
             primaryStage = (Stage) comsum_sup_id.getScene().getWindow();
             try {
-                newRoot = FXMLLoader.load(getClass().getResource("../menu/home.fxml"));
+                newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             primaryStage = (Stage) ferti_name.getScene().getWindow();
             try {
-                newRoot = FXMLLoader.load(getClass().getResource("../menu/home.fxml"));
+                newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -165,4 +160,34 @@ public class sellingController {
 
     }
 //    -------------------------------Back to home -------------------------------
+
+    public void Reset(ActionEvent event) {
+        Button btn = (Button) event.getSource();
+        String id = btn.getId();
+        if (id.equals("comsum_reset_btn")) {
+            comsum_date.setValue(null);
+            comsum_sup_id.setText(null);
+            comsum_sup_name.setText("Name");
+            comsum_Qty.setText(null);
+            comsum_rate.setText(null);
+            comsum_amount.setText("Rs. ");
+            comsum_paid.setSelected(false);
+        } else if (id.equals("ferti_reset_btn")) {
+            ferti_date.setValue(null);
+            ferti_sup_id.setText(null);
+            ferti_name.setText("Name");
+            ferti_Qty.setText(null);
+            ferti_rate.setText(null);
+            ferti_amount.setText("Rs. ");
+            ferti_paid.setSelected(false);
+        } else {
+            OC_date.setValue(null);
+            OC_sup_id.setText(null);
+            OC_sup_name.setText("Name");
+            OC_type.setVisible(false);
+            OC_amount.setText(null);
+            OC_paid.setSelected(false);
+        }
+    }
+
 }

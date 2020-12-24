@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sellings.sellingController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sellingController">
     <children>
         <Text layoutX="447.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Date : "/>
         <DatePicker fx:id="OC_date" layoutX="549.0" layoutY="135.0" promptText="MM/DD/YYYY"/>
@@ -31,9 +31,9 @@
             </items>
         </ComboBox>
         <Button fx:id="OC_add_btn" layoutX="598.0" layoutY="441.0" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="125.0" text="ADD"/>
+                prefWidth="125.0" text="ADD" onAction="#AddOtherCost"/>
         <Button fx:id="OC_reset_btn" layoutX="400.0" layoutY="441.0" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="125.0" text="Reset"/>
+                prefWidth="125.0" text="Reset" onAction="#Reset"/>
         <TextField fx:id="OC_amount" layoutX="373.0" layoutY="341.0" promptText="Rs"/>
         <Button fx:id="OC_backtoHm_btn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" text="Home"
                 AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0"/>

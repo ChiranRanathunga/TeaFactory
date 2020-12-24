@@ -18,6 +18,7 @@
       <element id="archive" name="TeaFactorySystem.jar">
         <element id="module-output" name="TeaFactorySystem" />
       </element>
+      <element id="library" level="project" name="mysql-connector-java-5.1.48" />
     </root>
   </artifact>
 </component>
