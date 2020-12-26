@@ -1,27 +1,29 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
 
-public class Controller {
-//    public void
+public class Controller implements Initializable {
 
     @FXML
     public DatePicker tea_collection_date;
     @FXML
-    public TextField tea_col_sup_id;
+    public ComboBox<String> tea_col_sup_id;
+    @FXML
+    public ComboBox<String> tea_col_sup_id1;
     @FXML
     public TextField tea_col_Qty;
     @FXML
@@ -29,9 +31,16 @@ public class Controller {
     @FXML
     public TextField mnth_rate_yr;
     @FXML
-    public TextField mnth_rate_month;
+    public ComboBox mnth_rate_month;
     @FXML
     public TextField mnth_rate_rate;
+    @FXML
+    public TextField waste_yr;
+    @FXML
+    public ComboBox waste_mnth;
+    @FXML
+    public TextField deduct_tea_col_Qty;
+
     public TitledPane GO_titledPane;
     public Button add_supplier_btn;
     public Button pay_advnc_btn;
@@ -50,17 +59,60 @@ public class Controller {
     TeaPotConnection teaPotConnection = new TeaPotConnection();
     Connection connection = teaPotConnection.getConnection();
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        TSID();
+    }
+
+    private void TSID() {
+
+        tea_col_sup_id.getItems().clear();
+        tea_col_sup_id1.getItems().clear();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("Select TS_ID from tea_sup_reg");
+
+            while (resultSet.next()) {
+                tea_col_sup_id.getItems().addAll(resultSet.getString("TS_ID"));
+                tea_col_sup_id1.getItems().addAll(resultSet.getString("TS_ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SetName(ActionEvent event) {
+        String supID = tea_col_sup_id.getValue();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("Select TS_Name from tea_sup_reg where TS_ID='" + supID + "'");
+
+            while (resultSet.next()) {
+
+                tea_col_sup_name.setText(resultSet.getString("TS_Name"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //    ----------------Pane section for Tea Collection-------------------
     public void AddTea(ActionEvent event) {
+
         try {
             Statement statement = connection.createStatement();
 
-
             System.out.println(tea_collection_date.getValue());
             String sql = "INSERT INTO TEA_LEAF_COLLECTION (TL_coll_Date, quantity, TS_ID) " +
-                    "VALUES ('" + tea_collection_date.getValue() + "','" + tea_col_Qty.getText() + "','" + tea_col_sup_id.getText() + "')";
+                    "VALUES ('" + tea_collection_date.getValue() + "','" + tea_col_Qty.getText() + "','" + tea_col_sup_id.getValue() + "')";
 
-            statement.executeUpdate(sql);
+            int isAdded = statement.executeUpdate(sql);
+            if (isAdded > 0) {
+    AlertClass.SuccessMsg();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,14 +125,19 @@ public class Controller {
         if (id.equals("tea_col_reset_btn")) {
 
             tea_collection_date.setValue(null);
-            tea_col_sup_id.setText(null);
+            tea_col_sup_id.setValue(null);
             tea_col_sup_name.setText(null);
             tea_col_Qty.setText(null);
         } else if (id.equals("mnth_rate_reset_btn")) {
             mnth_rate_yr.setText(null);
-            mnth_rate_month.setText(null);
+            mnth_rate_month.setValue(null);
             mnth_rate_rate.setText(null);
-        } else {
+        } else if (id.equals("deduct_tea_col_reset_btn")) {
+            tea_col_sup_id1.setValue(null);
+            waste_yr.setText(null);
+            waste_mnth.setValue(null);
+            deduct_tea_col_Qty.setText(null);
+
         }
     }
 //        ----------------End of the Pane section for Tea Collection-------------------
@@ -167,7 +224,7 @@ public class Controller {
             Statement statement = connection.createStatement();
 
             String sql = "INSERT INTO TEA_BUYING_RATE (month, month_rate, year) " +
-                    "VALUES ('" + mnth_rate_month.getText() + "','" + mnth_rate_rate.getText() + "','" + mnth_rate_yr.getText() + "')";
+                    "VALUES ('" + mnth_rate_month.getValue() + "','" + mnth_rate_rate.getText() + "','" + mnth_rate_yr.getText() + "')";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -176,4 +233,16 @@ public class Controller {
     }
 //-------------------------Monthly Rate Section---------------------------
 
+    public void ADDWaste(ActionEvent event) {
+        try {
+            Statement statement = connection.createStatement();
+
+            String sql = "INSERT INTO TEA_WASTE_DEDUCTION (TS_ID, wYear, wMonth,waste_quantity) " +
+                    "VALUES ('" + tea_col_sup_id1.getValue() + "','" + waste_yr.getText() + "','" + waste_mnth.getValue() + " ','" + deduct_tea_col_Qty.getText() + "')";
+
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

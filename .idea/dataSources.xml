@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MySQL - @localhost" uuid="61a45b6f-98cf-492c-91d7-a962de124ad6">
+    <data-source source="LOCAL" name="tea_pot_db@localhost" uuid="d39f842e-0f09-4a29-a8f8-863129de03ff">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/tea_pot</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/tea_pot_db</jdbc-url>
     </data-source>
   </component>
 </project>

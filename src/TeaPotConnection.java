@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class TeaPotConnection {
     public Connection getConnection() {
         try {
-            String url = "jdbc:mysql://localhost:3306/tea_pot";
+            String url = "jdbc:mysql://localhost:3306/tea_pot_db";
             String user = "root";
             String password = "passwordA";
 
