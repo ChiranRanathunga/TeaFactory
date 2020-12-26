@@ -11,7 +11,7 @@ public class AlertClass {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success...!");
         alert.setHeaderText(null);
-        alert.setContentText("Your Account has been Successfully Create!");
+        alert.setContentText("Added Successfully.....!");
         alert.showAndWait();
     }
 

@@ -78,30 +78,30 @@
                         <children>
                             <Text layoutX="26.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waste Qty" />
                             <TextField fx:id="deduct_tea_col_Qty" layoutX="25.0" layoutY="187.0" promptText="kg" />
-                            <Button fx:id="deduct_tea_col_add_btn" layoutX="24.0" layoutY="242.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="153.0" text="ADD" />
+                            <Button fx:id="deduct_tea_col_add_btn" layoutX="24.0" layoutY="242.0" mnemonicParsing="false" onAction="#ADDWaste" prefHeight="25.0" prefWidth="153.0" text="ADD" />
                             <Button fx:id="deduct_tea_col_reset_btn" layoutX="24.0" layoutY="276.0" mnemonicParsing="false" onAction="#Reset" prefHeight="25.0" prefWidth="153.0" text="Reset" />
-                     <ComboBox fx:id="tea_col_sup_id1" layoutX="26.0" layoutY="14.0" prefWidth="150.0" promptText="Select ID" />
-                     <Text layoutX="27.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Year" />
-                     <TextField fx:id="waste_yr" layoutX="26.0" layoutY="71.0" promptText="Enter Year" />
-                     <Text layoutX="27.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Month" />
-                     <ComboBox fx:id="waste_mnth" layoutX="25.0" layoutY="132.0" prefWidth="150.0" promptText="Select Month">
-                        <items>
-                           <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="January" />
-                              <String fx:value="February" />
-                              <String fx:value="March" />
-                              <String fx:value="April" />
-                              <String fx:value="May" />
-                              <String fx:value="June" />
-                              <String fx:value="July" />
-                              <String fx:value="August" />
-                              <String fx:value="September " />
-                              <String fx:value="October" />
-                              <String fx:value="November" />
-                              <String fx:value="December" />
-                           </FXCollections>
-                        </items>
-                     </ComboBox>
+                            <ComboBox fx:id="tea_col_sup_id1" layoutX="26.0" layoutY="14.0" prefWidth="150.0" promptText="Select ID" />
+                            <Text layoutX="27.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Year" />
+                            <TextField fx:id="waste_yr" layoutX="26.0" layoutY="71.0" promptText="Enter Year" />
+                            <Text layoutX="27.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Month" />
+                            <ComboBox fx:id="waste_mnth" layoutX="25.0" layoutY="132.0" prefWidth="150.0" promptText="Select Month">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="January" />
+                                        <String fx:value="February" />
+                                        <String fx:value="March" />
+                                        <String fx:value="April" />
+                                        <String fx:value="May" />
+                                        <String fx:value="June" />
+                                        <String fx:value="July" />
+                                        <String fx:value="August" />
+                                        <String fx:value="September " />
+                                        <String fx:value="October" />
+                                        <String fx:value="November" />
+                                        <String fx:value="December" />
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
                         </children>
                     </AnchorPane>
                 </content>

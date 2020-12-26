@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -8,21 +9,24 @@ import javafx.stage.Stage;
 //import TeaPotConnection;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
-public class sellingController {
+public class sellingController implements Initializable {
     @FXML
     public DatePicker comsum_date;
     @FXML
-    public TextField comsum_sup_id;
+    public ComboBox<String> sup_id;
     @FXML
     public TextField comsum_Qty;
     @FXML
     public TextField comsum_rate;
     @FXML
-    public Text comsum_sup_name;
+    public Text sup_name;
     @FXML
     public Text comsum_amount;
     @FXML
@@ -30,23 +34,15 @@ public class sellingController {
     @FXML
     public DatePicker ferti_date;
     @FXML
-    public TextField ferti_sup_id;
-    @FXML
     public TextField ferti_Qty;
     @FXML
     public TextField ferti_rate;
-    @FXML
-    public Text ferti_name;
     @FXML
     public Text ferti_amount;
     @FXML
     public CheckBox ferti_paid;
     @FXML
     public DatePicker OC_date;
-    @FXML
-    public TextField OC_sup_id;
-    @FXML
-    public Text OC_sup_name;
     @FXML
     public ComboBox OC_type;
     @FXML
@@ -67,21 +63,60 @@ public class sellingController {
     Connection connection = teaPotConnection.getConnection();
     int payState;
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        TSID();
+    }
+
+    private void TSID() {
+        sup_id.getItems().clear();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("Select TS_ID from tea_sup_reg");
+
+            while (resultSet.next()) {
+                sup_id.getItems().addAll(resultSet.getString("TS_ID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SetName(ActionEvent event) {
+        ComboBox comboBox = (ComboBox) event.getSource();
+        String supID = (String) comboBox.getValue();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("Select TS_Name from tea_sup_reg where TS_ID='" + supID + "'");
+
+            while (resultSet.next()) {
+                sup_name.setText(resultSet.getString("TS_Name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     //----------------------------------Consumption-------------------------------------
     public void AddConsumption(ActionEvent event) {
         int consumTeaAmount = Integer.parseInt(comsum_Qty.getText()) * Integer.parseInt(comsum_rate.getText());
+
+        comsum_amount.setText(String.valueOf(consumTeaAmount));
 
         System.out.println(consumTeaAmount);
         if (comsum_paid.isSelected()) {
             payState = 1;
         } else payState = 0;
 
-
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "INSERT INTO TEA_FOR_CONSUMPTION_SELLING (TS_ID, consum_sell_date, quantity, consum_tea_rate, consum_tea_amount, paid  ) " +
-                    "VALUES ('" + comsum_sup_id.getText() + "','" + comsum_date.getValue() + "','" + comsum_Qty.getText() + "','" + comsum_rate.getText() + "','" + consumTeaAmount + "','" + payState + "')";
+            String sql = "INSERT INTO TEA_FOR_CONSUMPTION__SELLING (consum_sell_date, quantity, consum_tea_rate, consum_tea_amount, paid, TS_ID  ) " +
+                    "VALUES ('" + comsum_date.getValue() + "','" + comsum_Qty.getText() + "','" + comsum_rate.getText() + "','" + consumTeaAmount + "','" + payState + "','" + sup_id.getValue() + "')";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -95,17 +130,18 @@ public class sellingController {
     public void AddFertilizer(ActionEvent event) {
         int fertilizerAmount = Integer.parseInt(ferti_Qty.getText()) * Integer.parseInt(ferti_rate.getText());
 
+        ferti_amount.setText(String.valueOf(fertilizerAmount));
+
         System.out.println(fertilizerAmount);
         if (ferti_paid.isSelected()) {
             payState = 1;
         } else payState = 0;
 
-
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "INSERT INTO FERTILIZER_SELLING (TS_ID, fer_sell_date, quantity, fer_rate, fer_amount, paid  ) " +
-                    "VALUES ('" + ferti_sup_id.getText() + "','" + ferti_date.getValue() + "','" + ferti_Qty.getText() + "','" + ferti_rate.getText() + "','" + fertilizerAmount + "','" + payState + "')";
+            String sql = "INSERT INTO FERTILIZER_SELLING ( fer_sell_date, quantity, fer_rate, fer_amount, paid, TS_ID  ) " +
+                    "VALUES ('" + ferti_date.getValue() + "','" + ferti_Qty.getText() + "','" + ferti_rate.getText() + "','" + fertilizerAmount + "','" + payState + "','" + sup_id.getValue() + "')";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -116,7 +152,7 @@ public class sellingController {
 
     //----------------------------------Other Cost-------------------------------------
     public void AddOtherCost(ActionEvent event) {
-//        System.out.println(fertilizerAmount);
+
         if (OC_paid.isSelected()) {
             payState = 1;
         } else payState = 0;
@@ -124,8 +160,8 @@ public class sellingController {
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, TS_ID, amount) " +
-                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + OC_sup_id.getText() + "','" + OC_amount.getText() + "')";
+            String sql = "INSERT INTO OTHER_COST (cost_type, cost_date, cost_amount, TS_ID) " +
+                    "VALUES ('" + OC_type.getValue() + "','" + OC_date.getValue() + "','" + OC_amount.getText() + " ','" + sup_id.getValue() + "')";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -142,14 +178,21 @@ public class sellingController {
         Parent newRoot = null;
         Stage primaryStage;
         if (id.equals("comsum_bckToHome")) {
-            primaryStage = (Stage) comsum_sup_id.getScene().getWindow();
+            primaryStage = (Stage) comsum_Qty.getScene().getWindow();
+            try {
+                newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (id.equals("ferti_backToHome_btn")) {
+            primaryStage = (Stage) ferti_amount.getScene().getWindow();
             try {
                 newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            primaryStage = (Stage) ferti_name.getScene().getWindow();
+            primaryStage = (Stage) OC_amount.getScene().getWindow();
             try {
                 newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
             } catch (IOException e) {
@@ -166,28 +209,27 @@ public class sellingController {
         String id = btn.getId();
         if (id.equals("comsum_reset_btn")) {
             comsum_date.setValue(null);
-            comsum_sup_id.setText(null);
-            comsum_sup_name.setText("Name");
+            sup_id.setValue(null);
+            sup_name.setText("Name");
             comsum_Qty.setText(null);
             comsum_rate.setText(null);
             comsum_amount.setText("Rs. ");
             comsum_paid.setSelected(false);
         } else if (id.equals("ferti_reset_btn")) {
             ferti_date.setValue(null);
-            ferti_sup_id.setText(null);
-            ferti_name.setText("Name");
+            sup_id.setValue(null);
+            sup_name.setText("Name");
             ferti_Qty.setText(null);
             ferti_rate.setText(null);
             ferti_amount.setText("Rs. ");
             ferti_paid.setSelected(false);
         } else {
             OC_date.setValue(null);
-            OC_sup_id.setText(null);
-            OC_sup_name.setText("Name");
+            sup_id.setValue(null);
+            sup_name.setText("Name");
             OC_type.setVisible(false);
             OC_amount.setText(null);
             OC_paid.setSelected(false);
         }
     }
-
 }
