@@ -41,7 +41,7 @@
             </items>
         </ComboBox>
         <Button fx:id="single_sup_report_gen" layoutX="264.0" layoutY="298.0" mnemonicParsing="false"
-                text="Generate Report"/>
+                text="Generate Report" onAction="#SingleReport"/>
         <Text layoutX="532.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Year :"/>
         <Text layoutX="532.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Month :"/>
         <TextField fx:id="all_sup_year" layoutX="649.0" layoutY="188.0"/>
