@@ -1,11 +1,28 @@
+import java.io.FileOutputStream;
+
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,6 +37,14 @@ import java.util.ResourceBundle;
 
 public class ReportPage implements Initializable {
 
+    private static final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+            Font.BOLD);
+
+    private static final Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+            Font.BOLD);
+//    private static final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+//            Font.BOLD);
+
     @FXML
     public ComboBox<String> single_sup_id;
     @FXML
@@ -32,23 +57,21 @@ public class ReportPage implements Initializable {
     public String totalWeight;
     public String BillID;
 
-
-    public void HtmlBtn(ActionEvent event) throws IOException {
-        String a = "අ";
-        File f = new File("source.html");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-        bw.write("<html><body><h1>" + a + "</h1>");
-        bw.write("<textarea cols=75 rows=10>");
-
-        bw.write("</textarea>");
-        bw.write("</body></html>");
-        bw.close();
-
-//        Desktop.getDesktop().browse(f.toURI());
-    }
-
     TeaPotConnection teaPotConnection = new TeaPotConnection();
     Connection connection = teaPotConnection.getConnection();
+
+    //    -------------------------------Back to home -------------------------------
+    public void BackToHome(ActionEvent event) {
+        Parent newRoot = null;
+        Stage primaryStage = (Stage) single_sup_year.getScene().getWindow();
+        try {
+            newRoot = FXMLLoader.load(getClass().getResource("home.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        primaryStage.getScene().setRoot(newRoot);
+    }
+//    -------------------------------Back to home -------------------------------
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -90,6 +113,7 @@ public class ReportPage implements Initializable {
     }
 
     public void SingleReport(ActionEvent event) throws IOException {
+
         String fileName = "SupID" + single_sup_id.getValue() + "- " + single_sup_month.getValue() + "-" + single_sup_year.getText() + ".html";
 
         int MonthNo = monthSelector((String) single_sup_month.getValue());
@@ -124,6 +148,7 @@ public class ReportPage implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         File f = new File(fileName);
         BufferedWriter bw = new BufferedWriter(new FileWriter(f));
@@ -164,8 +189,8 @@ public class ReportPage implements Initializable {
             bw.write("<tr>");
             while (rs2.next()) {
 //                BillID = rs2.getString("bill_ID");
-                bw.write("<td>" +rs2.getString(2)+ "</td>");
-                bw.write("<td>" +rs2.getString(3)+ "</td>");
+                bw.write("<td>" + rs2.getString(2) + "</td>");
+                bw.write("<td>" + rs2.getString(3) + "</td>");
             }
             bw.write("</tr>");
         } catch (SQLException e) {
@@ -176,10 +201,94 @@ public class ReportPage implements Initializable {
 
         bw.write("</body></html>");
         bw.close();
+//------------------------------------------------------------------------------------------------------
+
+
+
     }
 
+    public void Report(ActionEvent event) {
+        try {
+            Document document = new Document();
+            String FILE = "cnnl.pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            document.open();
+
+            addMetaData(document);
+
+            addContent(document);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private static void addMetaData(Document document) {
+        document.addAuthor("CDLA");
+        document.addCreator("CDLAc");
+    }
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+    private static void addContent(Document document) throws DocumentException {
+        Paragraph preface = new Paragraph();
+
+        Anchor anchor = new Anchor("First Chapter", catFont);
+        anchor.setName("First Chapter");
+
+        // Second parameter is the number of the chapter
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+
+        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+        Section subCatPart = catPart.addSection(subPara);
+        subCatPart.add(new Paragraph("Hello"));
+
+        subPara = new Paragraph("Subcategory 2", subFont);
+        subCatPart = catPart.addSection(subPara);
+        subCatPart.add(new Paragraph("Paragraph 1"));
+        subCatPart.add(new Paragraph("Paragraph 2"));
+        subCatPart.add(new Paragraph("                  "));
+
+        addEmptyLine(preface, 3);
+
+        // add a table
+        createTable(subCatPart);
+
+        // now add all this to the document
+        document.add(catPart);
+    }
+
+    private static void createTable(Section subCatPart) {
+        PdfPTable table = new PdfPTable(3);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Table Header 2"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Table Header 3"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        table.setHeaderRows(1);
+
+        table.addCell("1.0");
+        table.addCell("1.1");
+        table.addCell("1.2");
+        table.addCell("2.1");
+        table.addCell("2.2");
+        table.addCell("2.3");
+
+        subCatPart.add(table);
+
+    }
     public int monthSelector(String month) {
         return Month.valueOf(month.toUpperCase()).getValue();
     }
+
 }
 //../TeaFactorySystem/src/reports/reportTemplate.html
