@@ -223,8 +223,8 @@ public class Controller implements Initializable {
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "INSERT INTO TEA_BUYING_RATE (month, month_rate, year) " +
-                    "VALUES ('" + mnth_rate_month.getValue() + "','" + mnth_rate_rate.getText() + "','" + mnth_rate_yr.getText() + "')";
+            String sql = "INSERT INTO TEA_BUYING_RATE (tYeae, tMonth, month_rate) " +
+                    "VALUES ('" + mnth_rate_yr.getText() + "','" +  mnth_rate_month.getValue() + "','" + mnth_rate_rate.getText() + "')";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {

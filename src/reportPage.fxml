@@ -48,7 +48,24 @@
         <Text layoutX="532.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Year :"/>
         <Text layoutX="532.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Month :"/>
         <TextField fx:id="all_sup_year" layoutX="649.0" layoutY="188.0"/>
-        <ComboBox fx:id="all_sup_month" layoutX="648.0" layoutY="239.0" prefWidth="150.0" promptText="Select Month"/>
+        <ComboBox fx:id="all_sup_month" layoutX="648.0" layoutY="239.0" prefWidth="150.0" promptText="Select Month">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="January"/>
+                    <String fx:value="February"/>
+                    <String fx:value="March"/>
+                    <String fx:value="April"/>
+                    <String fx:value="May"/>
+                    <String fx:value="June"/>
+                    <String fx:value="July"/>
+                    <String fx:value="August"/>
+                    <String fx:value="September "/>
+                    <String fx:value="October"/>
+                    <String fx:value="November"/>
+                    <String fx:value="December"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
         <Button fx:id="all_sup_report_gen" layoutX="648.0" layoutY="286.0" mnemonicParsing="false"
                 text="Generate Monthly Report" onAction="#Report"/>
         <Line endX="13.0" endY="385.0" layoutX="449.0" layoutY="159.0" startX="13.0" startY="-120.0"/>
