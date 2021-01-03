@@ -204,60 +204,59 @@ public class ReportPage implements Initializable {
 //------------------------------------------------------------------------------------------------------
 
 
-
     }
 
     public void Report(ActionEvent event) {
+
         try {
             Document document = new Document();
-            String FILE = "cnnl.pdf";
-            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            PdfWriter.getInstance(document, new FileOutputStream("ige.pdf"));
             document.open();
-
             addMetaData(document);
 
-            addContent(document);
+            String para1 = "තේ කර්මාන්තශාලාව";
+
+            String para2 = "තේ කර්මාන්තශාලා ලියාපදිංචි අංකය : 00000";
+
+            // Creating Paragraphs
+            Paragraph paragraph1 = new Paragraph(para1, subFont);
+            Paragraph paragraph2 = new Paragraph(para2);
+
+            // Adding paragraphs to document
+            document.add(paragraph1);
+            document.add(paragraph2);
+            PdfPTable table = new PdfPTable(3);
+
+            PdfPCell c1 = new PdfPCell(new Phrase("Header 1"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Header 2"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Header 3"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            table.addCell("1.0");
+            table.addCell("1.1");
+            table.addCell("1.2");
+            table.addCell("2.1");
+            table.addCell("2.2");
+            table.addCell("2.3");
+
+
+            document.add(table);
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private static void addMetaData(Document document) {
         document.addAuthor("CDLA");
         document.addCreator("CDLAc");
-    }
-
-    private static void addEmptyLine(Paragraph paragraph, int number) {
-        for (int i = 0; i < number; i++) {
-            paragraph.add(new Paragraph(" "));
-        }
-    }
-    private static void addContent(Document document) throws DocumentException {
-        Paragraph preface = new Paragraph();
-
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
-
-        // Second parameter is the number of the chapter
-        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
-
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
-
-        subPara = new Paragraph("Subcategory 2", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("                  "));
-
-        addEmptyLine(preface, 3);
-
-        // add a table
-        createTable(subCatPart);
-
-        // now add all this to the document
-        document.add(catPart);
     }
 
     private static void createTable(Section subCatPart) {
@@ -286,6 +285,7 @@ public class ReportPage implements Initializable {
         subCatPart.add(table);
 
     }
+
     public int monthSelector(String month) {
         return Month.valueOf(month.toUpperCase()).getValue();
     }
