@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-//import TeaPotConnection;
 
 import java.io.IOException;
 import java.net.URL;

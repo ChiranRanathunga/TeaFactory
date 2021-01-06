@@ -1,0 +1,28 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="TeaFactorySystem2">
+    <output-path>$PROJECT_DIR$/out/artifacts/TeaFactorySystem2</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="Main" />
+        <option name="description" value="" />
+        <option name="height" value="600" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+        <option name="width" value="900" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="TeaFactorySystem.jar">
+        <element id="module-output" name="TeaFactorySystem" />
+      </element>
+      <element id="library" level="project" name="mysql-connector-java-5.1.48" />
+      <element id="library" level="project" name="itextpdf-5.5.9" />
+      <element id="library" level="project" name="kernel-7.1.13" />
+      <element id="library" level="project" name="layout-7.1.13" />
+      <element id="library" level="project" name="io-7.1.13" />
+    </root>
+  </artifact>
+</component>

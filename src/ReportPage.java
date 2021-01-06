@@ -346,8 +346,22 @@ public class ReportPage implements Initializable {
             table.addCell(c1);
 
             try {
+                String sql = "select   tsr.ts_id, tsr.ts_name, \n" +
+                        "\t\t sum(tlc.quantity) as 'tea_collection_qty', \n" +
+                        "         sum(twd.waste_quantity) as 'waste_qty',\n" +
+                        "         sum(f.quantity) as 'fertilizer_qty', f.fer_rate, sum(f.fer_amount) as 'fetilizer_amount',\n" +
+                        "         sum(tcs.quantity) as 'consumption_qty',  tcs.consum_tea_rate, sum(tcs.consum_tea_amount) as 'consumption_amount',\n" +
+                        "         sum(oc.cost_amount) as 'cost_amount'\n" +
+                        "from     tea_sup_reg tsr \n" +
+                        "\t\t\t\tleft outer join tea_leaf_collection tlc on tsr.TS_ID=tlc.TS_ID\n" +
+                        "                left outer join tea_waste_deduction twd on tsr.TS_ID = twd.TS_ID\n" +
+                        "                left outer join fertilizer_selling f on tsr.TS_ID = f.TS_ID\n" +
+                        "                left outer join tea_for_consumption__selling tcs on tsr.TS_ID = tcs.TS_ID\n" +
+                        "                left outer join other_cost oc on tsr.TS_ID=oc.OCost_ID\n" +
+                        "where   YEAR(tlc.TL_coll_date) = '2021' AND MONTH(tlc.TL_coll_date) = '1'\n" +
+                        "group by tsr.ts_id, tsr.ts_name";
                 Statement statement3 = connection.createStatement();
-                ResultSet rs2 = statement3.executeQuery("SELECT tea_sup_reg.TS_ID, tea_sup_reg.TS_Name, SUM(tea_leaf_collection.quantity), tea_waste_deduction.waste_quantity FROM tea_sup_reg INNER JOIN tea_leaf_collection ON tea_sup_reg.TS_ID = tea_leaf_collection.TS_ID INNER JOIN tea_waste_deduction ON tea_leaf_collection.TS_ID = tea_waste_deduction.TS_ID where (SELECT YEAR(`TL_coll_date`)='" + all_sup_year.getText() + "' AND MONTH(`TL_coll_date`)='" + MonthNo + "')");
+                ResultSet rs2 = statement3.executeQuery(sql);
                 while (rs2.next()) {
                     table.addCell(rs2.getString("tea_sup_reg.TS_ID"));
                     table.addCell(rs2.getString("tea_sup_reg.TS_Name"));
