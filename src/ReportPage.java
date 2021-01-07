@@ -1,10 +1,6 @@
 import java.io.FileOutputStream;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -114,7 +110,10 @@ public class ReportPage implements Initializable {
 
     public void SingleReport(ActionEvent event) {
 
-        String fileName = "SupID" + single_sup_id.getValue() + "- " + single_sup_month.getValue() + "-" + single_sup_year.getText() + ".pdf";
+        String fileName = "SupID" +
+                single_sup_id.getValue() + "- " +
+                single_sup_month.getValue() + "-" +
+                single_sup_year.getText() + ".pdf";
 
         int MonthNo = monthSelector((String) single_sup_month.getValue());
         System.out.println(MonthNo);
@@ -276,26 +275,28 @@ public class ReportPage implements Initializable {
                 e.printStackTrace();
             }
 
-            String par1 = "Deductions";
-            String par2 = "Advance   Rs.:" + Advance;
-            String par3 = "Drink Tea  Rs.:" + DrinkTea;
-            String par4 = "Fertilizer  Rs.:" + Fertilizer;
-            String par5 = "Transport cost Rs.:" + Transport;
-            String par6 = "Other costs Rs.:" + OtherCosts;
+            String para11 = "Deductions";
+            String para12 = "Advance   Rs.:" + Advance;
+            String para13 = "Drink Tea  Rs.:" + DrinkTea;
+            String para14 = "Fertilizer  Rs.:" + Fertilizer;
+            String para15 = "Transport cost Rs.:" + Transport;
+            String para16 = "Other costs Rs.:" + OtherCosts;
 
-            Paragraph graph1 = new Paragraph(par1);
-            Paragraph graph2 = new Paragraph(par2);
-            Paragraph graph3 = new Paragraph(par3);
-            Paragraph graph4 = new Paragraph(par4);
-            Paragraph graph5 = new Paragraph(par5);
-            Paragraph graph6 = new Paragraph(par6);
+            String para17 = "Monthly Contribution : ";
 
-            document.add(graph1);
-            document.add(graph2);
-            document.add(graph3);
-            document.add(graph4);
-            document.add(graph5);
-            document.add(graph6);
+            Paragraph paragraph11 = new Paragraph(para11);
+            Paragraph paragraph12 = new Paragraph(para12);
+            Paragraph paragraph13 = new Paragraph(para13);
+            Paragraph paragraph14 = new Paragraph(para14);
+            Paragraph paragraph15 = new Paragraph(para15);
+            Paragraph paragraph16 = new Paragraph(para16);
+
+            document.add(paragraph11);
+            document.add(paragraph12);
+            document.add(paragraph13);
+            document.add(paragraph14);
+            document.add(paragraph15);
+            document.add(paragraph16);
 
             System.out.println(Advance + "   " + DrinkTea);
             document.close();
@@ -307,19 +308,19 @@ public class ReportPage implements Initializable {
     public void Report(ActionEvent event) {
         int MonthNo = monthSelector((String) all_sup_month.getValue());
         String path = all_sup_year.getText() + "-" + all_sup_month.getValue();
+
         try {
-            Document document = new Document();
+            Document document = new Document(PageSize.A4.rotate());
             PdfWriter.getInstance(document, new FileOutputStream(path + ".pdf"));
             document.open();
             addMetaData(document);
 
             String para1 = "Monthly Report";
-            String para2 = path;
             String para3 = "                                ";
 
             // Creating Paragraphs
             Paragraph paragraph1 = new Paragraph(para1, subFont);
-            Paragraph paragraph2 = new Paragraph(para2);
+            Paragraph paragraph2 = new Paragraph(path);
             Paragraph paragraph3 = new Paragraph(para3);
 
             // Adding paragraphs to document
@@ -327,7 +328,7 @@ public class ReportPage implements Initializable {
             document.add(paragraph2);
             document.add(paragraph3);
 
-            PdfPTable table = new PdfPTable(4);
+            PdfPTable table = new PdfPTable(11);
 
             PdfPCell c1 = new PdfPCell(new Phrase("Supplier ID"));
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -345,12 +346,40 @@ public class ReportPage implements Initializable {
             c1.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(c1);
 
+            c1 = new PdfPCell(new Phrase("Fertilizer Qty"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Fer Rate"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Fer Amount"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Consumption Qty"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Consumption Rate"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Consumption Amount"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
+            c1 = new PdfPCell(new Phrase("Other Costs"));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(c1);
+
             try {
                 String sql = "select   tsr.ts_id, tsr.ts_name, \n" +
                         "\t\t sum(tlc.quantity) as 'tea_collection_qty', \n" +
                         "         sum(twd.waste_quantity) as 'waste_qty',\n" +
-                        "         sum(f.quantity) as 'fertilizer_qty', f.fer_rate, sum(f.fer_amount) as 'fetilizer_amount',\n" +
-                        "         sum(tcs.quantity) as 'consumption_qty',  tcs.consum_tea_rate, sum(tcs.consum_tea_amount) as 'consumption_amount',\n" +
+                        "         sum(f.quantity) as 'fertilizer_qty', f.fer_rate as  'fer_rate', sum(f.fer_amount) as 'fertilizer_amount',\n" +
+                        "         sum(tcs.quantity) as 'consumption_qty',  tcs.consum_tea_rate as  'tea_rate', sum(tcs.consum_tea_amount) as 'consumption_amount',\n" +
                         "         sum(oc.cost_amount) as 'cost_amount'\n" +
                         "from     tea_sup_reg tsr \n" +
                         "\t\t\t\tleft outer join tea_leaf_collection tlc on tsr.TS_ID=tlc.TS_ID\n" +
@@ -358,15 +387,24 @@ public class ReportPage implements Initializable {
                         "                left outer join fertilizer_selling f on tsr.TS_ID = f.TS_ID\n" +
                         "                left outer join tea_for_consumption__selling tcs on tsr.TS_ID = tcs.TS_ID\n" +
                         "                left outer join other_cost oc on tsr.TS_ID=oc.OCost_ID\n" +
-                        "where   YEAR(tlc.TL_coll_date) = '2021' AND MONTH(tlc.TL_coll_date) = '1'\n" +
+                        "where   YEAR(tlc.TL_coll_date) = " + all_sup_year.getText() + " AND MONTH(tlc.TL_coll_date) =" + MonthNo + "\n" +
                         "group by tsr.ts_id, tsr.ts_name";
                 Statement statement3 = connection.createStatement();
                 ResultSet rs2 = statement3.executeQuery(sql);
                 while (rs2.next()) {
-                    table.addCell(rs2.getString("tea_sup_reg.TS_ID"));
-                    table.addCell(rs2.getString("tea_sup_reg.TS_Name"));
-                    table.addCell(rs2.getString("SUM(tea_leaf_collection.quantity)"));
-                    table.addCell(rs2.getString("waste_quantity"));
+                    table.addCell(rs2.getString("tsr.ts_id"));
+                    table.addCell(rs2.getString("tsr.ts_name"));
+                    table.addCell(rs2.getString("tea_collection_qty"));
+                    table.addCell(rs2.getString("waste_qty"));
+                    table.addCell(rs2.getString("fertilizer_qty"));
+                    table.addCell(rs2.getString("fer_rate"));
+                    table.addCell(rs2.getString("fertilizer_amount"));
+                    table.addCell(rs2.getString("consumption_qty"));
+                    table.addCell(rs2.getString("tea_rate"));
+                    table.addCell(rs2.getString("consumption_amount"));
+                    table.addCell(rs2.getString("cost_amount"));
+
+
                 }
 
             } catch (SQLException e) {
