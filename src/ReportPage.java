@@ -173,7 +173,7 @@ public class ReportPage implements Initializable {
             addMetaData(document);
 
             String para1 = "TEA FACTORY";
-            String para2 = "Reg No.                  : 0000";
+            String para2 = "Reg No.                  : 0001";
             String para3 = "Address                  : No.123, Main Rd, Colombo";
             String para4 = "Telephone               : 011-1234567";
             String para5 = "Supplier Name       : " + single_sup_name.getText();
